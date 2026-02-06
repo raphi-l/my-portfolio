@@ -115,7 +115,10 @@ def train_model(model,
                 epochs: int = 20,
                 steps_per_epoch: int = None,
                 validation_steps: int = None,
-                log_dir:str = None):
+                log_dir:str = None,
+                patience_lr: int = 3,
+                min_delta_lr: float = 0.05,
+                min_lr: float = 1e-5):
 
     """
     Trains the model given the parameters
@@ -128,9 +131,9 @@ def train_model(model,
     reduce_lr = ReduceLROnPlateau(
         monitor='val_mae',
         factor=0.5,
-        patience=3,
-        min_delta=0.05,
-        min_lr=0.00001,
+        patience=patience_lr,
+        min_delta=min_delta_lr,
+        min_lr=min_lr,
         verbose=1)
 
     print(f'[INFO] Training Model...')
