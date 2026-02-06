@@ -25,7 +25,7 @@ def prepare_face_data(df: pd.DataFrame = None,
   Returns two DataFrames split into training and testing DataFrames
   Takes either DataFrame or path to csv file. Default is 20% test size
   """
-  if df:
+  if df is not None:
     pass
   else:
     df = pd.read_csv(df_path)
