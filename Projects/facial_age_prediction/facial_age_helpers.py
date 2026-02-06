@@ -17,6 +17,30 @@ IMAGE_SHAPE = (224,224)
 BATCH_SIZE = 32
 
 
+def prepare_face_data(df: pd.DataFrame = None,
+                      df_path: str = None,
+                      test_size: int = 0.2,
+                      min_age_count: int = 5):
+  """
+  Returns two DataFrames split into training and testing DataFrames
+  Takes either DataFrame or path to csv file. Default is 20% test size
+  """
+  if df:
+    pass
+  else:
+    df = pd.read_csv(df_path)
+
+  age_counts=df['real_age'].value_counts()
+  repeated_ages = age_counts[age_counts > min_age_count].index
+  df_filtered = df[df['real_age'].isin(repeated_ages)]
+  
+  train_df, test_df = train_test_split(df_filtered,
+                                     shuffle=True,
+                                     random_state=42, test_size=0.2,
+                                     stratify=df_filtered['real_age'])
+  return train_df, test_df
+
+
 def load_train(base_path, df, range_255= False):
 
     """
